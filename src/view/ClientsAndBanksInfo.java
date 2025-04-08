@@ -5,9 +5,9 @@ import java.util.List;
 
 import components.*;
 import model.Client;
+import services.database.CSVBanksReader;
+import services.database.CSVClientsReader;
 import model.Bank;
-import services.db.CSVClientsReader;
-import services.db.CSVBanksReader;
 
 public class ClientsAndBanksInfo {
     public ClientsAndBanksInfo() {

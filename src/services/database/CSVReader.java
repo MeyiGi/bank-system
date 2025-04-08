@@ -1,4 +1,4 @@
-package services.db;
+package services.database;
 
 import java.util.List;
 
