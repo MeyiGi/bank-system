@@ -1,4 +1,4 @@
-package services.database;
+package services.ORM;
 
 import java.util.List;
 
