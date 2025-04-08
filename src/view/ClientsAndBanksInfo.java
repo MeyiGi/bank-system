@@ -4,9 +4,9 @@ import java.awt.BorderLayout;
 import java.util.List;
 
 import components.*;
+import database.CSVBanksReader;
+import database.CSVClientsReader;
 import model.Client;
-import services.ORM.CSVBanksReader;
-import services.ORM.CSVClientsReader;
 import model.Bank;
 
 public class ClientsAndBanksInfo {

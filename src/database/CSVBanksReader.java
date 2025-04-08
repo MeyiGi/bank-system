@@ -1,4 +1,4 @@
-package services.ORM;
+package services.database;
 
 import model.Bank;
 import java.io.BufferedReader;
