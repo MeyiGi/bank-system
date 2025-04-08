@@ -44,4 +44,10 @@ public class Table {
     public void setScrollPane(JScrollPane scrollPane) {
         this.scrollPane = scrollPane;
     }
+
+    // ✅ Добавляем метод для смены колонок
+    public void setColumns(String[] columns) {
+        this.model = new DefaultTableModel(columns, 0);
+        this.table.setModel(this.model);
+    }
 }

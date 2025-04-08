@@ -1,8 +1,8 @@
-import view.ClientsInfo;
+import view.ClientsAndBanksInfo;
 
 public class Main {
     public static void main(String[] args) {
-        ClientsInfo clientView = new ClientsInfo();
+        ClientsAndBanksInfo clientView = new ClientsAndBanksInfo();
         clientView.equals(clientView);
     }
 }

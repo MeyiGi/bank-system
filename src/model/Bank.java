@@ -30,4 +30,8 @@ public class Bank {
     public void setBalance(BigDecimal balance) {
         this.balance = balance;
     }
+
+    public Object[] toArray() {
+        return new Object[] { name, code, address, balance };
+    }
 }
