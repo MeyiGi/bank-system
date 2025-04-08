@@ -1,9 +1,0 @@
-MVC - Model View Controller
-Model - data. Entity classes. <- Mappers (toEntity(), toDto() ) -> DTO - Data Transfer Object
-View - Graphic User Interface forms, widgets ...
-Controller - program logic
-
-MVVM - Model, View, View-Model
-
-Service
-Repository

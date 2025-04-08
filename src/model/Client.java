@@ -1,6 +1,6 @@
 package model;
 
-public class ClientModel {
+public class Client {
     private String firstName;
     private String secondName;
     private String dateOfBirth;
@@ -9,7 +9,7 @@ public class ClientModel {
     private String bankAccount;
     private double balance;
 
-    public ClientModel(String firstName, String secondName, String dateOfBirth,
+    public Client(String firstName, String secondName, String dateOfBirth,
                        String inn, String phoneNumber, String bankAccount, double balance) {
         this.firstName = firstName;
         this.secondName = secondName;

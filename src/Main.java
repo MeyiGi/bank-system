@@ -1,10 +1,7 @@
-import controller.CSVController;
-import view.CSVView;
+import view.ClientsInfo;
 
 public class Main {
     public static void main(String[] args) {
-        CSVView view = new CSVView();
-        new CSVController(view);
-        view.setVisible(true);
+        ClientsInfo clientView = new ClientsInfo();
     }
 }
