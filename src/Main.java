@@ -6,9 +6,9 @@
 //         // clientView.equals(clientView);
 //     }
 // }
+import database.CSVClientRepository;
+import database.ClientRepository;
 import model.Client;
-import services.database.CSVClientRepository;
-import services.database.ClientRepository;
 
 public class Main {
     public static void main(String[] args) {
