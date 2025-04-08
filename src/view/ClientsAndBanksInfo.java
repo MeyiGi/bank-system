@@ -13,7 +13,6 @@ import database.CSVBanksReader;
 import database.CSVClientRepository;
 import database.CSVClientsReader;
 import services.MoneyTransfer;
-import services.TransferByAccountNumber;
 import model.Client;
 import model.Bank;
 
@@ -34,9 +33,8 @@ public class ClientsAndBanksInfo {
         // Создание репозитория клиентов
         CSVClientRepository clientRepository = new CSVClientRepository("data/clients.csv");
         
-        // Создание объектов для перевода
-        MoneyTransfer transferByPhone = new TransferByPhoneNumber(clientRepository);
-        MoneyTransfer transferByAccount = new TransferByAccountNumber(clientRepository);
+        // Создание объекта для перевода
+        MoneyTransfer transfer = new TransferByPhoneNumber(clientRepository);
 
         // Обработчик: показать клиентов
         showClientsButton.addActionListener(e -> {
@@ -68,48 +66,30 @@ public class ClientsAndBanksInfo {
         makeTransactionButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Создаем окно для выбора типа перевода (по телефону или по номеру счета)
-                String[] options = {"Phone Number", "Account Number"};
-                JComboBox<String> methodComboBox = new JComboBox<>(options);
-
-                JPanel panelForTransaction = new JPanel();
-                panelForTransaction.add(new JLabel("Select Transfer Method:"));
-                panelForTransaction.add(methodComboBox);
-
-                // Создание формы для ввода данных перевода
-                JTextField senderField = new JTextField(10);
-                JTextField recipientField = new JTextField(10);
+                // Создаем окно для ввода данных перевода
+                JTextField senderPhoneField = new JTextField(10);
+                JTextField recipientPhoneField = new JTextField(10);
                 JTextField amountField = new JTextField(10);
 
-                panelForTransaction.add(new JLabel("Sender:"));
-                panelForTransaction.add(senderField);
-                panelForTransaction.add(new JLabel("Recipient:"));
-                panelForTransaction.add(recipientField);
+                JPanel panelForTransaction = new JPanel();
+                panelForTransaction.add(new JLabel("Sender Phone:"));
+                panelForTransaction.add(senderPhoneField);
+                panelForTransaction.add(new JLabel("Recipient Phone:"));
+                panelForTransaction.add(recipientPhoneField);
                 panelForTransaction.add(new JLabel("Amount:"));
                 panelForTransaction.add(amountField);
 
-                // Ожидаем выбор пользователя
                 int option = JOptionPane.showConfirmDialog(frame, panelForTransaction, 
                         "Enter Transaction Details", JOptionPane.OK_CANCEL_OPTION);
 
                 // Если пользователь нажал ОК
                 if (option == JOptionPane.OK_OPTION) {
-                    String sender = senderField.getText();
-                    String recipient = recipientField.getText();
+                    String senderPhone = senderPhoneField.getText();
+                    String recipientPhone = recipientPhoneField.getText();
                     int amount = Integer.parseInt(amountField.getText());
-                    MoneyTransfer selectedTransfer = null;
 
-                    // Выбираем метод перевода в зависимости от выбора пользователя
-                    if (methodComboBox.getSelectedItem().equals("Phone Number")) {
-                        selectedTransfer = transferByPhone;
-                    } else if (methodComboBox.getSelectedItem().equals("Account Number")) {
-                        selectedTransfer = transferByAccount;
-                    }
-
-                    if (selectedTransfer != null) {
-                        // Выполняем перевод
-                        selectedTransfer.pay(sender, recipient, amount);
-                    }
+                    // Выполняем транзакцию
+                    transfer.pay(senderPhone, recipientPhone, amount);
                 }
             }
         });
