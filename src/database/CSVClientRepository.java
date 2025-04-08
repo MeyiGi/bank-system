@@ -16,6 +16,10 @@ public class CSVClientRepository implements ClientRepository {
         this.clients = CSVClientsReader.read(csvFilename);  // Чтение данных из файла при инициализации
     }
 
+    public List<Client> getClients() {
+        return CSVClientsReader.read(csvFilename);  // Предположим, что CSVClientsReader уже существует
+    }
+
     @Override
     public Client findByAccountNumber(String accountNumber) {
         for (Client client : clients) {

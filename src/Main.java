@@ -1,16 +1,13 @@
-// import view.ClientsAndBanksInfo;
+import javax.swing.*;
 
-// public class Main {
-//     public static void main(String[] args) {
-//         // ClientsAndBanksInfo clientView = new ClientsAndBanksInfo();
-//         // clientView.equals(clientView);
-//     }
-// }
-import view.ClientsAndBanksInfo;
+import view.MainView;
 
 public class Main {
-
     public static void main(String[] args) {
-        new ClientsAndBanksInfo();
+        SwingUtilities.invokeLater(() -> {
+            // Create and show the main window
+            MainView mainView = new MainView();
+            mainView.setVisible(true);
+        });
     }
 }
