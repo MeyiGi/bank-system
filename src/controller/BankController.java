@@ -6,22 +6,25 @@ import database.*;
 import view.*;
 
 import java.awt.event.ActionEvent;
-import java.util.List;
+import java.util.*;
 
 public class BankController {
     private final CSVClientRepository clientRepository;
-    private final MoneyTransfer phoneTransfer;
-    private final MoneyTransfer accountTransfer;
-    
+    private final Map<String, MoneyTransfer> transferStrategies;
+
     private ClientsView clientsView;
     private BanksView banksView;
     private MainView mainView;
 
     public BankController(MainView mainView) {
         this.mainView = mainView;
-        clientRepository = new CSVClientRepository("data/clients.csv");
-        phoneTransfer = new TransferByPhoneNumber(clientRepository);
-        accountTransfer = new TransferByAccountNumber(clientRepository);
+        this.clientRepository = new CSVClientRepository("data/clients.csv");
+
+        // 👇 Мапа для стратегии перевода
+        transferStrategies = new HashMap<>();
+        transferStrategies.put("Phone Number", new TransferByPhoneNumber(clientRepository));
+        transferStrategies.put("Account Number", new TransferByAccountNumber(clientRepository));
+        transferStrategies.put("Inn Number", new TransferByInnNumber(clientRepository));
     }
 
     public void setViews(ClientsView clientsView, BanksView banksView) {
@@ -42,7 +45,7 @@ public class BankController {
     public void handleTransaction(ActionEvent e) {
         TransactionView view = new TransactionView(mainView);
         view.setVisible(true);
-        
+
         if (view.isConfirmed()) {
             executeTransaction(view.getTransactionData());
             loadClients(); // Refresh client data
@@ -60,9 +63,11 @@ public class BankController {
     }
 
     public void executeTransaction(TransactionView.TransactionData data) {
-        MoneyTransfer transfer = data.method.equals("Phone Number") 
-            ? phoneTransfer 
-            : accountTransfer;
-        transfer.pay(data.sender, data.recipient, (int)data.amount);
+        MoneyTransfer transfer = transferStrategies.get(data.method);
+        if (transfer != null) {
+            transfer.pay(data.sender, data.recipient, (int)data.amount);
+        } else {
+            System.err.println("Unsupported transfer method: " + data.method);
+        }
     }
 }

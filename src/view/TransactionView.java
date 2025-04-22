@@ -25,7 +25,7 @@ public class TransactionView extends JDialog {
         gbc.insets = new Insets(5, 5, 5, 5);
         gbc.fill = GridBagConstraints.HORIZONTAL;
 
-        methodComboBox = new JComboBox<>(new String[]{"Phone Number", "Account Number"});
+        methodComboBox = new JComboBox<>(new String[]{"Phone Number", "Account Number", "Inn Number"});
         senderField = new JTextField(15);
         recipientField = new JTextField(15);
         amountField = new JTextField(15);

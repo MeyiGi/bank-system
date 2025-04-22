@@ -41,6 +41,16 @@ public class CSVClientRepository implements ClientRepository {
     }
 
     @Override
+    public Client findByInnNumber(String accountNumber) {
+        for (Client client : clients) {
+            if (client.getInn().equals(accountNumber)) {
+                return client;
+            }
+        }
+        return null;
+    }
+
+    @Override
     public void saveClientsInfo() {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(csvFilename))) {
             // Запись заголовка
