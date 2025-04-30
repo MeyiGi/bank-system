@@ -1,17 +1,14 @@
 package controller;
 
 import model.*;
-import services.*;
 import database.*;
 import view.*;
 
 import java.awt.event.ActionEvent;
-import java.util.*;
+import java.util.List;
 
 public class BankController {
     private final CSVClientRepository clientRepository;
-    private final Map<String, MoneyTransfer> transferStrategies;
-
     private ClientsView clientsView;
     private BanksView banksView;
     private MainView mainView;
@@ -19,12 +16,6 @@ public class BankController {
     public BankController(MainView mainView) {
         this.mainView = mainView;
         this.clientRepository = new CSVClientRepository("data/clients.csv");
-
-        // 👇 Мапа для стратегии перевода
-        transferStrategies = new HashMap<>();
-        transferStrategies.put("Phone Number", new TransferByPhoneNumber(clientRepository));
-        transferStrategies.put("Account Number", new TransferByAccountNumber(clientRepository));
-        transferStrategies.put("Inn Number", new TransferByInnNumber(clientRepository));
     }
 
     public void setViews(ClientsView clientsView, BanksView banksView) {
@@ -43,12 +34,13 @@ public class BankController {
     }
 
     public void handleTransaction(ActionEvent e) {
-        TransactionView view = new TransactionView(mainView);
+        // Before passing to the view, select the correct strategy based on the user selection.
+        TransactionView view = new TransactionView(mainView, clientRepository);
         view.setVisible(true);
 
         if (view.isConfirmed()) {
             executeTransaction(view.getTransactionData());
-            loadClients(); // Refresh client data
+            loadClients(); // Refresh clients after transaction
         }
     }
 
@@ -62,12 +54,12 @@ public class BankController {
         banksView.updateTable(banks);
     }
 
-    public void executeTransaction(TransactionView.TransactionData data) {
-        MoneyTransfer transfer = transferStrategies.get(data.method);
-        if (transfer != null) {
-            transfer.pay(data.sender, data.recipient, (int)data.amount);
+    public void executeTransaction(TransactionView.TransactionData data) {  
+        if (data.sender != null && data.recipient != null) {
+            data.strategy.pay(data.sender, data.recipient, (int) data.amount);
+            clientRepository.saveClientsInfo(); // Save updated data back to CSV
         } else {
-            System.err.println("Unsupported transfer method: " + data.method);
+            System.err.println("Sender or recipient not found.");
         }
     }
 }

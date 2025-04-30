@@ -1,4 +1,4 @@
-package services;
+package services.transfer;
 
 public interface MoneyTransfer {
     // Transfers money from sender to recipient.
